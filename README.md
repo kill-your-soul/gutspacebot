@@ -15,4 +15,4 @@ pip install -r requirements.txt<br>
 $env:TOKEN=""<br>
 
 #запускаем бота<br>
-python bot.py                     
+python src/bot.py                     
