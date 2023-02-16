@@ -13,7 +13,7 @@
 1. Clone this repo 
 
     ```shell
-    git clone https://github.com/kill-your-soul/valentin_bot.git
+    git clone https://github.com/TechDepSut/gutspacebot.git
     ```
 2. Create virtual environment 
     
