@@ -6,9 +6,6 @@ def timebuttons():
     min = datetime.now().minute
     btime = []
 
-    print(hour)
-    print(min)
-
     if min > 30:
         for i in range(3):
             btime.append(str(hour + i + 1) + ":00")
