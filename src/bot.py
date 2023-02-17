@@ -1,4 +1,5 @@
 import os
+import asyncio
 from vkbottle import Bot, Keyboard, Text
 from vkbottle import BaseStateGroup, KeyboardButtonColor
 from vkbottle.bot import Message
@@ -35,7 +36,7 @@ async def reg(m: Message) -> None:
 
 @bot.on.message(state=Branch.BOOKING)
 async def time(m: Message) -> None:
-    btime = timebuttons()
+    btime = await timebuttons()
     keyboard = Keyboard(one_time=True)
     for i in btime:
         keyboard.add(Text(i), color=KeyboardButtonColor.PRIMARY)
@@ -43,13 +44,12 @@ async def time(m: Message) -> None:
         "Отлично! Теперь выбери удобное время для сеанса. Напоминаем, что один сеанс длится 2 часа.",
         keyboard=keyboard,
     )
-    await bot.state_dispenser.set(m.peer_id, Branch.BOOKINGEND)
+    await bot.state_dispenser.set(m.peer_id, Branch.BOOKINGEND, name=str(m.text))
 
 
 @bot.on.message(state=Branch.BOOKINGEND)
 async def bookingComplete(m: Message):
-    bookingDB(m.text)
-    person_add()
+    await bookingDB(m.text)
     keyboard = Keyboard(one_time=True)
     keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
     keyboard.row()
@@ -58,6 +58,7 @@ async def bookingComplete(m: Message):
         "Ждем тебя в SutSpace! За 15 минут до окончания твоего сеанса бот вышлет тебе напоминание.",
         keyboard=keyboard,
     )
+    await person_add(m.state_peer.payload["name"], str(m.text))
     await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
 
 

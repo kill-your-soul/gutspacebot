@@ -2,13 +2,13 @@ from datetime import datetime
 import sqlite3
 
 
-def timebuttons():
+async def timebuttons():
     if datetime.now().minute > 30:
         hour = int(datetime.now().hour) + 1
     else:
         hour = int(datetime.now().hour)
 
-    hour = 10
+    # hour = 10
 
     btime = []
 
@@ -27,13 +27,16 @@ def timebuttons():
     return btime
 
 
-def bookingDB(txt):
-
+async def bookingDB(txt):
     conn = sqlite3.connect("booking.db")
     cursor = conn.cursor()
 
-    av = cursor.execute("SELECT * FROM availability WHERE time = ?", (txt.split(':')[0],)).fetchall()
-    cursor.execute("UPDATE availability SET amount = ? WHERE time = ?", (av[0][1] + 1, av[0][0]))
+    av = cursor.execute(
+        "SELECT * FROM availability WHERE time = ?", (txt.split(":")[0],)
+    ).fetchall()
+    cursor.execute(
+        "UPDATE availability SET amount = ? WHERE time = ?", (av[0][1] + 1, av[0][0])
+    )
 
     conn.commit()
     conn.close()
