@@ -64,13 +64,15 @@
         + Powershell:
 
             ```Powershell
-            $env:TOKEN = "TOKEN_TO_YOUR_BOT";
+            $env:token="TOKEN_TO_YOUR_BOT";
+            $env:service_file="SERVICE_FILE_FOR_GOOGLE_API";
             ```
         
         + cmd:
 
             ```cmd
-            set TOKEN=TOKEN_TO_YOUR_BOT
+            set token=TOKEN_TO_YOUR_BOT
+            set service_file="SERVICE_FILE_FOR_GOOGLE_API"
             ```
 
     - For Linux, MacOS:
@@ -78,7 +80,8 @@
         + Bash:
 
             ```shell
-            export TOKEN="TOKEN_TO_YOUR_BOT"
+            export token="TOKEN_TO_YOUR_BOT"
+            export service_file="SERVICE_FILE_FOR_GOOGLE_API"
             ```
 
 6. Run bot
@@ -86,11 +89,13 @@
     - For Windows:
 
         ```shell
-        python .\src\bot.py
+        cd .\src\
+        python .\bot.py
         ```
 
     - For Linux, MacOS:
     
         ```shell
-        python3 ./src/bot.py
+        cd ./src/
+        python3 bot.py
         ```                     
