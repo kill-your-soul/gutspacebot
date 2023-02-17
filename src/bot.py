@@ -2,7 +2,8 @@ import os
 from vkbottle import Bot, Keyboard, Text
 from vkbottle import BaseStateGroup, KeyboardButtonColor
 from vkbottle.bot import Message
-from bookingtime import timebuttons, bookingDB
+from utils.bookingtime import *
+from utils.sheetsconnect import *
 
 bot = Bot(os.environ["token"])
 
@@ -48,6 +49,7 @@ async def time(m: Message) -> None:
 @bot.on.message(state=Branch.BOOKINGEND)
 async def bookingComplete(m: Message):
     bookingDB(m.text)
+    person_add()
     keyboard = Keyboard(one_time=True)
     keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
     keyboard.row()
