@@ -1,12 +1,14 @@
 import os
+from asyncio import sleep
 import asyncio
-from vkbottle import Bot, Keyboard, Text
+from vkbottle import Bot, Keyboard, Text, API
 from vkbottle import BaseStateGroup, KeyboardButtonColor
 from vkbottle.bot import Message
 from utils.bookingtime import *
 from utils.sheetsconnect import *
 
 bot = Bot(os.environ["token"])
+api = API(token=os.environ["token"])
 
 
 class Branch(BaseStateGroup):
@@ -38,7 +40,9 @@ async def reg(m: Message) -> None:
 async def time(m: Message) -> None:
     btime = await timebuttons()
     if len(btime) == 0:
-        await m.answer("Извини, но все места в ближайшее время заняты, или коворкинг сейчас не работает")
+        await m.answer(
+            "Извини, но все места в ближайшее время заняты, или коворкинг сейчас не работает"
+        )
     else:
         keyboard = Keyboard(one_time=True)
         for i in btime:
@@ -65,18 +69,8 @@ async def bookingComplete(m: Message):
             keyboard=keyboard,
         )
         await person_add(m.state_peer.payload["name"], str(m.text))
-        global stop_polling_sheet
-        stop_polling_sheet = asyncio.Event()
-        while True:
-            try:
-                await asyncio.wait_for(stop_polling_sheet.wait(), timeout=10)
-            except asyncio.TimeoutError:
-                try:
-                    await m.answer("До окончания твоего сеанса осталось 15 минут")
-                    break
-                except:
-                    print("Not working")
-    await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
+        await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
+        await notification(m.peer_id)
 
 
 @bot.on.message(state=Branch.HELLO, text="Задать вопрос")
@@ -94,6 +88,15 @@ async def questionComplete(m: Message):
         keyboard=keyboard,
     )
     await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
+
+
+async def notification(peer):
+    await sleep(10)
+    await api.messages.send(
+        peer_id=peer,
+        message="До окончания твоего сеанса осталось 15 минут",
+        random_id=0,
+    )
 
 
 if __name__ == "__main__":
