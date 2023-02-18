@@ -31,5 +31,4 @@ async def bookingCheck(time, vk_id):
 async def person_add(time, name):
     wks = sh.worksheet_by_title("Занятость")
     rec_col = await get_rec(time, wks)
-
     wks.update_value(f"{time_voc.get(time)}{len(rec_col)+2}", name)

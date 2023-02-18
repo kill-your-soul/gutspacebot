@@ -9,7 +9,7 @@ async def timebuttons():
     else:
         hour = int(datetime.now().hour)
 
-    hour = 15
+    # hour = 15
 
     btime = []
 

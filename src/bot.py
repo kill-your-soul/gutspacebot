@@ -59,6 +59,7 @@ async def bookingComplete(m: Message):
     keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
     keyboard.row()
     keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
+
     if await bookingCheck(m.text, m.peer_id):
         await m.answer("Ты уже зарегестрирован на это время", keyboard=keyboard)
         await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
@@ -91,7 +92,7 @@ async def questionComplete(m: Message):
 
 
 async def notification(peer):
-    await sleep(10)
+    await sleep(6300)
     await api.messages.send(
         peer_id=peer,
         message="До окончания твоего сеанса осталось 15 минут",
