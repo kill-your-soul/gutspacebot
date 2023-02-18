@@ -52,27 +52,30 @@ async def time(m: Message) -> None:
 
 @bot.on.message(state=Branch.BOOKINGEND)
 async def bookingComplete(m: Message):
-    await bookingDB(m.text)
     keyboard = Keyboard(one_time=True)
     keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
     keyboard.row()
     keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
-    await m.answer(
-        "Ждем тебя в SutSpace! За 15 минут до окончания твоего сеанса бот вышлет тебе напоминание.",
-        keyboard=keyboard,
-    )
-    await person_add(m.state_peer.payload["name"], str(m.text))
-    global stop_polling_sheet
-    stop_polling_sheet = asyncio.Event()
-    while True:
-        try:
-            await asyncio.wait_for(stop_polling_sheet.wait(), timeout=10)
-        except asyncio.TimeoutError:
+    if await bookingCheck(m.text, m.peer_id):
+        await m.answer("Ты уже зарегестрирован на это время", keyboard=keyboard)
+    else:
+        await bookingDB(m.text)
+        await m.answer(
+            "Ждем тебя в SutSpace! За 15 минут до окончания твоего сеанса бот вышлет тебе напоминание.",
+            keyboard=keyboard,
+        )
+        await person_add(m.state_peer.payload["name"], str(m.text))
+        global stop_polling_sheet
+        stop_polling_sheet = asyncio.Event()
+        while True:
             try:
-                await m.answer("Penis")
-                break
-            except:
-                print("Not working")
+                await asyncio.wait_for(stop_polling_sheet.wait(), timeout=10)
+            except asyncio.TimeoutError:
+                try:
+                    await m.answer("До окончания твоего сеанса осталось 15 минут")
+                    break
+                except:
+                    print("Not working")
     await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
 
 
