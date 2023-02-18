@@ -59,6 +59,17 @@ async def bookingComplete(m: Message):
         keyboard=keyboard,
     )
     await person_add(m.state_peer.payload["name"], str(m.text))
+    global stop_polling_sheet
+    stop_polling_sheet = asyncio.Event()
+    while True:
+        try:
+            await asyncio.wait_for(stop_polling_sheet.wait(), timeout=10)
+        except asyncio.TimeoutError:
+            try:
+                await m.answer("Penis")
+                break
+            except:
+                print("Not working")
     await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
 
 
