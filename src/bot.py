@@ -1,6 +1,5 @@
 import os
 from asyncio import sleep
-import asyncio
 from vkbottle import Bot, Keyboard, Text, API
 from vkbottle import BaseStateGroup, KeyboardButtonColor
 from vkbottle.bot import Message
