@@ -1,5 +1,6 @@
 from datetime import datetime
 import sqlite3
+from . import err
 
 
 async def timebuttons():
@@ -8,13 +9,16 @@ async def timebuttons():
     else:
         hour = int(datetime.now().hour)
 
-    # hour = 10
+    # hour = 19
 
     btime = []
 
     conn = sqlite3.connect("booking.db")
     cursor = conn.cursor()
 
+    if hour in err and hour != 19 and hour != 20:
+        return btime
+            
     for i in range(3):
         av = cursor.execute(
             "SELECT * FROM availability WHERE time = ? OR time = ? OR time = ?",
@@ -24,6 +28,14 @@ async def timebuttons():
         if (av[0][1] + av[1][1] < 30) & (av[1][1] + av[2][1] < 30):
             btime.append(str(av[1][0]) + ":00")
 
+
+    if hour == 19 or hour == 20:
+        try:
+            btime.remove("21:00")
+            btime.remove("22:00")
+        except:
+            pass
+    
     return btime
 
 

@@ -1,6 +1,8 @@
 import os
 import pygsheets
 
+err = [0, 1, 2, 3, 4, 5, 6, 7, 8, 19, 20, 21, 22, 23, 24]
+
 time_voc = {
         "9:00": "A",
         "10:00": "B",

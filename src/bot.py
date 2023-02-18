@@ -37,13 +37,16 @@ async def reg(m: Message) -> None:
 @bot.on.message(state=Branch.BOOKING)
 async def time(m: Message) -> None:
     btime = await timebuttons()
-    keyboard = Keyboard(one_time=True)
-    for i in btime:
-        keyboard.add(Text(i), color=KeyboardButtonColor.PRIMARY)
-    await m.answer(
-        "Отлично! Теперь выбери удобное время для сеанса. Напоминаем, что один сеанс длится 2 часа.",
-        keyboard=keyboard,
-    )
+    if len(btime) == 0:
+        await m.answer("Извини, но все места в ближайшее время заняты, или коворкинг сейчас не работает")
+    else:
+        keyboard = Keyboard(one_time=True)
+        for i in btime:
+            keyboard.add(Text(i), color=KeyboardButtonColor.PRIMARY)
+        await m.answer(
+            "Отлично! Теперь выбери удобное время для сеанса. Напоминаем, что один сеанс длится 2 часа.",
+            keyboard=keyboard,
+        )
     await bot.state_dispenser.set(m.peer_id, Branch.BOOKINGEND, name=str(m.text))
 
 
