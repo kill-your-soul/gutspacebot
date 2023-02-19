@@ -67,7 +67,7 @@ async def bookingComplete(m: Message):
     keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
 
     if await bookingCheck(m.text, m.peer_id):
-        await m.answer("Ты уже зарегестрирован на это время", keyboard=keyboard)
+        await m.answer("Ты уже зарегистрирован на это время", keyboard=keyboard)
         await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
     else:
         await m.answer(
