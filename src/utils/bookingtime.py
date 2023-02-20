@@ -34,7 +34,7 @@ async def timebuttons():
             btime.remove("22:00")
         except:
             pass
-    
+
     conn.commit()
     conn.close()
 

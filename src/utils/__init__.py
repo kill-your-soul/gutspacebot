@@ -1,5 +1,8 @@
 import os
 import pygsheets
+import threading
+from time import sleep
+from clearAll import clearAll
 
 err = [0, 1, 2, 3, 4, 5, 6, 7, 8, 19, 20, 21, 22, 23, 24]
 
@@ -22,3 +25,5 @@ service_file = os.environ["service_file"]
 gc = pygsheets.authorize(service_file=service_file)
 sheetname = "SutSpace занятость"
 sh = gc.open(sheetname)
+
+threading.Thread(target=clearAll, daemon=True).start()
