@@ -9,7 +9,7 @@ async def timebuttons():
     else:
         hour = int(datetime.now().hour)
 
-    # hour = 15
+    # hour = 2
 
     btime = []
 
@@ -27,6 +27,10 @@ async def timebuttons():
 
         if (av[0][1] + av[1][1] < 30) & (av[1][1] + av[2][1] < 30):
             btime.append(str(av[1][0]) + ":00")
+
+
+    if len(btime) == 0:
+        return ['Full']
 
     if hour == 19 or hour == 20:
         try:

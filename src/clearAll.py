@@ -4,6 +4,7 @@ import sqlite3
 from time import sleep
 from datetime import datetime
 
+
 def clearAll():
     while True:
         sleep(1800)
