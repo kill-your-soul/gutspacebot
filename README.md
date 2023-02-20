@@ -6,7 +6,8 @@
 2. pip or pip3
 3. Bot [token](https://dev.vk.com/api/bots/getting-started#%D0%9F%D0%BE%D0%BB%D1%83%D1%87%D0%B5%D0%BD%D0%B8%D0%B5%20%D0%BA%D0%BB%D1%8E%D1%87%D0%B0%20%D0%B4%D0%BE%D1%81%D1%82%D1%83%D0%BF%D0%B0) for VK API
 
-
+## IMPORTANT
+Before start this bot you should create Google sheet table and set in A-L columns text "9:00" "10:00" etc.
 
 ## Build locally
 ### Installing requirements
@@ -65,6 +66,8 @@
 
             ```Powershell
             $env:token="TOKEN_TO_YOUR_BOT";
+            ```
+            ```Powershell
             $env:service_file="SERVICE_FILE_FOR_GOOGLE_API";
             ```
         
@@ -72,6 +75,8 @@
 
             ```cmd
             set token=TOKEN_TO_YOUR_BOT
+            ```
+            ```cmd
             set service_file="SERVICE_FILE_FOR_GOOGLE_API"
             ```
 
@@ -81,6 +86,8 @@
 
             ```shell
             export token="TOKEN_TO_YOUR_BOT"
+            ```
+            ```shell
             export service_file="SERVICE_FILE_FOR_GOOGLE_API"
             ```
 
@@ -90,6 +97,8 @@
 
         ```shell
         cd .\src\
+        ```
+        ```shell
         python .\bot.py
         ```
 
@@ -97,5 +106,7 @@
     
         ```shell
         cd ./src/
+        ```      
+        ```shell
         python3 bot.py
-        ```                     
+        ```
