@@ -25,5 +25,5 @@ def clearAll():
             wks = sh.worksheet_by_title("VK_ID")
             wks1 = sh.worksheet_by_title("Занятость")
 
-            wks.clear(start="A2", end="L26")
-            wks1.clear(start="A2", end="L26")
+            wks.clear(start="A2", end="L32")
+            wks1.clear(start="A2", end="L32")

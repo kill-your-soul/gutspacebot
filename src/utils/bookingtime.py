@@ -9,14 +9,14 @@ async def timebuttons():
     else:
         hour = int(datetime.now().hour)
 
-    # hour = 2
+    hour = 16
 
     btime = []
 
     conn = sqlite3.connect("booking.db")
     cursor = conn.cursor()
 
-    if hour in err and hour != 19 and hour != 20:
+    if hour in err and hour != 16 and hour != 17:
         return btime
 
     for i in range(3):
@@ -32,10 +32,10 @@ async def timebuttons():
     if len(btime) == 0:
         return ['Full']
 
-    if hour == 19 or hour == 20:
+    if hour == 16 or hour == 17:
         try:
-            btime.remove("21:00")
-            btime.remove("22:00")
+            btime.remove("18:00")
+            btime.remove("19:00")
         except:
             pass
 
