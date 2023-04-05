@@ -13,6 +13,7 @@ def clearAll():
             cursor = conn.cursor()
 
             cursor.execute("UPDATE availability SET amount = 0")
+            cursor.execute("DELETE FROM bookings;")
 
             conn.commit()
             conn.close()
