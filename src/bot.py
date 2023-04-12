@@ -66,7 +66,7 @@ async def bookingComplete(m: Message):
     else:
         await m.answer(
             "Ждем тебя в SutSpace!\n\nЗа 15 минут до окончания твоего сеанса я пришлю тебе напоминание💙",
-            keyboard=keyboard,
+            keyboard=main_keyboard,
         )
         await bookingDB(m.text, m.peer_id)
         await person_add(m.text, m.state_peer.payload["name"])
