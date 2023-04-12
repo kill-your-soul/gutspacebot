@@ -5,6 +5,7 @@ from vkbottle import BaseStateGroup, KeyboardButtonColor
 from vkbottle.bot import Message
 from utils.bookingtime import *
 from utils.sheetsconnect import *
+from utils.keyaboard import main_keyboard
 
 bot = Bot(os.environ["token"])
 api = API(token=os.environ["token"])
@@ -19,11 +20,7 @@ class Branch(BaseStateGroup):
 
 @bot.on.message(text="Начать")
 async def start(m: Message) -> None:
-    keyboard = Keyboard(one_time=True)
-    keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
-    keyboard.row()
-    keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
-    await m.answer("Выбери действие", keyboard=keyboard)
+    await m.answer("Выбери действие", keyboard=main_keyboard)
     await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
 
 
@@ -39,23 +36,15 @@ async def reg(m: Message) -> None:
 async def time(m: Message) -> None:
     btime = await timebuttons()
     if len(btime) == 0:
-        keyboard = Keyboard(one_time=True)
-        keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
-        keyboard.row()
-        keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
         await m.answer(
             "Команда коворкинга работает с 10 до 18 часов и готова ответить на все ваши вопросы только в эти часы. В остальное время мы отдыхаем и вам советуем💙",
-            keyboard=keyboard,
+            keyboard=main_keyboard,
         )
         await bot.state_dispenser.set(m.peer_id, Branch.HELLO, name=str(m.text))
     elif btime[0] == 'Full':
-        keyboard = Keyboard(one_time=True)
-        keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
-        keyboard.row()
-        keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
         await m.answer(
             "Кажется у нас аншлаг🙊\n\nК сожалению, все места на ближайшие сеансы уже заняты. Возвращайся чуть позже и забирай свое место в SutSpace!",
-            keyboard=keyboard,
+            keyboard=main_keyboard,
         )
         await bot.state_dispenser.set(m.peer_id, Branch.HELLO, name=str(m.text))
     else:
@@ -71,13 +60,8 @@ async def time(m: Message) -> None:
 
 @bot.on.message(state=Branch.BOOKINGEND)
 async def bookingComplete(m: Message):
-    keyboard = Keyboard(one_time=True)
-    keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
-    keyboard.row()
-    keyboard.add(Text("Задать вопрос"), color=KeyboardButtonColor.PRIMARY)
-
     if await bookingCheck(m.text, m.peer_id):
-        await m.answer("Ты уже зарегистрирован на это время", keyboard=keyboard)
+        await m.answer("Ты уже зарегистрирован на это время", keyboard=main_keyboard)
         await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
     else:
         await m.answer(
@@ -98,11 +82,9 @@ async def question(m: Message) -> None:
 
 @bot.on.message(state=Branch.QUESTION)
 async def questionComplete(m: Message):
-    keyboard = Keyboard(one_time=True)
-    keyboard.add(Text("Бронь"), color=KeyboardButtonColor.PRIMARY)
     await m.answer(
         "Спасибо за обращение! Совсем скоро администратор коворкинга ответит тебе💙",
-        keyboard=keyboard,
+        keyboard=main_keyboard,
     )
     await bot.state_dispenser.set(m.peer_id, Branch.HELLO)
 
