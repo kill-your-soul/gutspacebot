@@ -110,3 +110,17 @@ Before running this bot you should create Google sheet table and set in A-L colu
         ```shell
         python3 bot.py
         ```
+
+## Build docker
+
+1. Build Image
+    
+    ```shell
+    docker build -t gutspace .
+    ```
+
+2. Run container
+
+    ```shell
+    docker run -it --env service_file="service_file.json" --env token="bot_token" --env TZ=Europe/Moscow gutspace
+    ```
